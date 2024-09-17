@@ -24,9 +24,13 @@ This project aims to analyze employment data in India using Snowflake and build 
 ## System Architecture
 
 ```mermaid
-graph TD;
-    A[User] --> |Request| B[Streamlit Web App];
-    B --> |Query| C[Snowflake Database];
-    C --> |Data Processing| D[Snowflake SQL];
-    D --> E[Data Insights];
-    B --> |View| E[Data Insights];
+flowchart TD
+    User --> |Interacts with| UI[Streamlit Web App]
+    UI --> |Sends request| QAModel[Llama 3.1 Q&A Model]
+    UI --> |Sends query| API[API Gateway]
+    API --> |Fetches data| DB[Snowflake Database]
+    DB --> |Returns data| API
+    API --> |Sends data| QAModel
+    QAModel --> |Processes and sends response| UI
+    UI --> |Displays answer| User
+
